@@ -1,5 +1,3 @@
-import { Types } from "mongoose";
-
 interface IName {
   english: string;
   bangla: string;
@@ -24,8 +22,13 @@ interface IStats {
   professionalTraining: number;
 }
 
+interface ISocialLinks {
+  name: string;
+  url: string;
+}
+
 export interface IProfile {
-  _id: Types.ObjectId;
+  _id: string;
   name: IName;
   specializedIn: string;
   shortDescription: string;
@@ -45,4 +48,6 @@ export interface IProfile {
   treatmentAndExperties: string[];
 
   stats: IStats;
+
+  socialLinks: ISocialLinks[]
 }
