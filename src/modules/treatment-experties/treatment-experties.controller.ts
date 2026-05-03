@@ -16,7 +16,7 @@ export const createTreatmentAndExperties = catchAsync(
     return sendResponse(res, {
       statusCode: httpStatus.CREATED,
       status: httpStatus[httpStatus.CREATED],
-      message: "Treatment experties created!",
+      message: "Experties created!",
       data: createdExperties,
     });
   },
@@ -30,7 +30,7 @@ export const getTreatmentAndExperties = catchAsync(
     return sendResponse(res, {
       statusCode: httpStatus.OK,
       status: httpStatus[httpStatus.OK],
-      message: "Treatment experties data.",
+      message: "Experties data.",
       data: result,
     });
   },
@@ -48,13 +48,13 @@ export const updateTreatmentAndExperties = catchAsync(
       );
 
     if (!(result.modifiedCount > 0)) {
-      throw new AppError(404, "Treatment not found!");
+      throw new AppError(404, "Experties not found!");
     }
 
     return sendResponse(res, {
       statusCode: httpStatus.OK,
       status: httpStatus[httpStatus.OK],
-      message: "Treatment experties updated.",
+      message: "Experties updated.",
       data: result,
     });
   },
@@ -70,13 +70,13 @@ export const deleteTreatmentAndExperties = catchAsync(
       );
 
     if (!(result.deletedCount > 0)) {
-      throw new AppError(404, "Treatment not found!");
+      throw new AppError(404, "Experties not found!");
     }
 
     return sendResponse(res, {
       statusCode: httpStatus.OK,
       status: httpStatus[httpStatus.OK],
-      message: "Treatment experties deleted.",
+      message: "Experties deleted.",
       data: result,
     });
   },
