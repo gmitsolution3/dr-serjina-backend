@@ -1,3 +1,4 @@
+import { IPaginationOptions } from "../../types";
 import { ITreatmentAndExperties } from "./treatment-experties.interface";
 import TreatmentAndExperties from "./treatment-experties.model";
 
@@ -9,10 +10,38 @@ export const createTreatmentAndExperties = async (
   return result;
 };
 
-export const getTreatmentAndExperties = async () => {
-  const result = await TreatmentAndExperties.find({});
+export const getTreatmentAndExperties = async (
+  options: IPaginationOptions,
+) => {
+  const page = Number(options.page) ?? 1;
+  const limit = Number(options.limit) ?? 10;
+  const skip = (page - 1) * limit;
 
-  return result;
+  const sortBy = options.sortBy as string;
+  const sortOrder = options.sortOrder === "asc" ? 1 : -1;
+
+  const sortCondition: Record<string, 1 | -1> = {
+    [sortBy]: sortOrder,
+  };
+
+  const expertiesList = await TreatmentAndExperties.find({})
+    .sort(sortCondition)
+    .skip(skip)
+    .limit(limit);
+
+  const total = await TreatmentAndExperties.countDocuments();
+
+  const totalPage = limit === 0 ? 1 : Math.ceil(total / limit);
+
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+      totalPage
+    },
+    expertiesList,
+  };
 };
 
 export const updateTreatmentAndExperties = async (

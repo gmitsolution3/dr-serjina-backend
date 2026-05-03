@@ -23,9 +23,16 @@ export const createTreatmentAndExperties = catchAsync(
 );
 
 export const getTreatmentAndExperties = catchAsync(
-  async (_req, res) => {
+  async (req, res) => {
+    const { page, limit, sortBy, sortOrder } = req.query;
+
     const result =
-      await treatmentAndExpertiesService.getTreatmentAndExperties();
+      await treatmentAndExpertiesService.getTreatmentAndExperties({
+        page: Number(page),
+        limit: Number(limit),
+        sortBy: sortBy as string,
+        sortOrder: sortOrder as "asc" | "desc",
+      });
 
     return sendResponse(res, {
       statusCode: httpStatus.OK,

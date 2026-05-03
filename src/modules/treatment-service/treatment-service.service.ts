@@ -12,8 +12,8 @@ export const createTreatmentService = async (
 export const getTreatmentServices = async (
   options: IPaginationOptions,
 ) => {
-  const page = Number(options.page) || 1;
-  const limit = Number(options.limit) || 10;
+  const page = Number(options.page) ?? 1;
+  const limit = Number(options.limit) ?? 10;
   const skip = (page - 1) * limit;
 
   const sortBy = options.sortBy as string;
@@ -30,12 +30,14 @@ export const getTreatmentServices = async (
 
   const total = await TreatmentAndService.countDocuments();
 
+  const totalPage = limit === 0 ? 1 : Math.ceil(total / limit);
+
   return {
     meta: {
       page,
       limit,
       total,
-      totalPage: Math.ceil(total / limit),
+      totalPage
     },
     serviceList,
   };
