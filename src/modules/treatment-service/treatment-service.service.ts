@@ -1,3 +1,4 @@
+import { IPaginationOptions } from "./../../types";
 import { ITreatmentAndService } from "./treatment-service.interface";
 import TreatmentAndService from "./treatment-service.model";
 
@@ -8,9 +9,36 @@ export const createTreatmentService = async (
   return result;
 };
 
-export const getTreatmentServices = async () => {
-  const result = await TreatmentAndService.find({});
-  return result;
+export const getTreatmentServices = async (
+  options: IPaginationOptions,
+) => {
+  const page = Number(options.page) || 1;
+  const limit = Number(options.limit) || 10;
+  const skip = (page - 1) * limit;
+
+  const sortBy = options.sortBy as string;
+  const sortOrder = options.sortOrder === "asc" ? 1 : -1;
+
+  const sortCondition: Record<string, 1 | -1> = {
+    [sortBy]: sortOrder,
+  };
+
+  const serviceList = await TreatmentAndService.find({})
+    .sort(sortCondition)
+    .skip(skip)
+    .limit(limit);
+
+  const total = await TreatmentAndService.countDocuments();
+
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+      totalPage: Math.ceil(total / limit),
+    },
+    serviceList,
+  };
 };
 
 export const updateTreatmentService = async (

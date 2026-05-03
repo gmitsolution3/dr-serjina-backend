@@ -18,8 +18,15 @@ export const createTreatmentService = catchAsync(async (req, res) => {
   });
 });
 
-export const getTreatmentServices = catchAsync(async (_req, res) => {
-  const result = await treatmentService.getTreatmentServices();
+export const getTreatmentServices = catchAsync(async (req, res) => {
+  const { page, limit, sortBy, sortOrder } = req.query;
+
+  const result = await treatmentService.getTreatmentServices({
+    page: Number(page),
+    limit: Number(limit),
+    sortBy: sortBy as string,
+    sortOrder: sortOrder as "asc" | "desc",
+  });
 
   return sendResponse(res, {
     statusCode: httpStatus.OK,
