@@ -12,6 +12,10 @@ const serviceSchema = new Schema<ITreatmentAndService>(
       type: String,
       required: true,
     },
+    public_id: {
+      type: String,
+      required: true,
+    },
   },
   {
     strict: true,

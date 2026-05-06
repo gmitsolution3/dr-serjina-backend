@@ -10,8 +10,6 @@ export const updateOrCreateProfile = catchAsync(async (req, res) => {
   const updatedProfile =
     await profileService.updateOrCreateProfile(payload);
 
-  console.log(updatedProfile);
-
   if (updatedProfile.upsertedCount > 0) {
     return sendResponse(res, {
       statusCode: httpStatus.CREATED,
