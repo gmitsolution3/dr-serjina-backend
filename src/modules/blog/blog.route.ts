@@ -8,6 +8,8 @@ router
   .get(blogController.getBlogs)
   .post(blogController.createBlog);
 
+router.get("/all", blogController.getAllBlogs);
+
 router
   .route("/:slug")
   .get(blogController.getSingleBlog)

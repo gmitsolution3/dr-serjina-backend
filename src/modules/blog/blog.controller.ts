@@ -46,6 +46,24 @@ export const getBlogs = catchAsync(async (req, res) => {
   });
 });
 
+export const getAllBlogs = catchAsync(async (req, res) => {
+  const { page, limit, sortBy, sortOrder } = req.query;
+
+  const result = await blogService.getAllBlogs({
+    page: Number(page),
+    limit: Number(limit),
+    sortBy: sortBy as string,
+    sortOrder: sortOrder as "asc" | "desc",
+  });
+
+  return sendResponse(res, {
+    statusCode: httpStatus.OK,
+    status: httpStatus[httpStatus.OK],
+    message: "Blog data.",
+    data: result,
+  });
+});
+
 export const getSingleBlog = catchAsync(async (req, res) => {
   const { slug } = req.params;
 
