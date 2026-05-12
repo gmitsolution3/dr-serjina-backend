@@ -20,12 +20,12 @@ export const getBlogs = async (options: IPaginationOptions) => {
     [sortBy]: sortOrder,
   };
 
-  const blogList = await Blog.find({})
+  const blogList = await Blog.find({ status: "published" })
     .sort(sortCondition)
     .skip(skip)
     .limit(limit);
 
-  const total = await Blog.countDocuments();
+  const total = await Blog.countDocuments({ status: "published" });
 
   const totalPage = limit === 0 ? 1 : Math.ceil(total / limit);
 
@@ -56,16 +56,17 @@ export const updateBlog = async (
 };
 
 export const toggleStatus = async (slug: string) => {
-  const blog = await Blog.findOne({slug});
+  const blog = await Blog.findOne({ slug });
 
-  const updatedStatus = blog!.status === "published" ? "draft" : "published";
+  const updatedStatus =
+    blog!.status === "published" ? "draft" : "published";
 
   blog!.status = updatedStatus;
 
   const result = await blog!.save();
 
   return result;
-} 
+};
 
 export const deleteBlog = async (slug: string) => {
   const result = await Blog.deleteOne({ slug });

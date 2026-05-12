@@ -23,7 +23,7 @@ export const createBlog = catchAsync(async (req, res) => {
   return sendResponse(res, {
     statusCode: httpStatus.CREATED,
     status: httpStatus[httpStatus.CREATED],
-    message: "Blog created!",
+    message: "Blog created successfully!",
     data: createdBlog,
   });
 });
