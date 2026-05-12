@@ -67,7 +67,10 @@ export const updateBlog = catchAsync(async (req, res) => {
   const { slug } = req.params;
   const payload = req.body;
 
-  const result = await blogService.updateBlog(slug as string, payload);
+  const result = await blogService.updateBlog(
+    slug as string,
+    payload,
+  );
 
   if (!(result.modifiedCount > 0)) {
     throw new AppError(httpStatus.NOT_FOUND, "Blog not found!");
@@ -77,6 +80,25 @@ export const updateBlog = catchAsync(async (req, res) => {
     statusCode: httpStatus.OK,
     status: httpStatus[httpStatus.OK],
     message: "Blog updated.",
+    data: result,
+  });
+});
+
+export const toggleStatus = catchAsync(async (req, res) => {
+  const { slug } = req.params;
+
+  const existingBlog = await blogService.getSingleBlog(slug as string);
+
+  if (!existingBlog) {
+    throw new AppError(httpStatus.NOT_FOUND, "Blog not found!");
+  }
+
+  const result = await blogService.toggleStatus(slug as string);
+
+  return sendResponse(res, {
+    statusCode: httpStatus.OK,
+    status: httpStatus[httpStatus.OK],
+    message: `Status updated to: ${result.status}`,
     data: result,
   });
 });

@@ -30,11 +30,12 @@ const blogSchema = new Schema<IBlog>(
     status: {
       type: String,
       enum: ["draft", "published"],
-      default: "draft",
+      default: "published",
     },
 
     publishedAt: {
       type: Date,
+      default: Date.now(),
     },
   },
   {

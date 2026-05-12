@@ -55,6 +55,18 @@ export const updateBlog = async (
   return result;
 };
 
+export const toggleStatus = async (slug: string) => {
+  const blog = await Blog.findOne({slug});
+
+  const updatedStatus = blog!.status === "published" ? "draft" : "published";
+
+  blog!.status = updatedStatus;
+
+  const result = await blog!.save();
+
+  return result;
+} 
+
 export const deleteBlog = async (slug: string) => {
   const result = await Blog.deleteOne({ slug });
   return result;

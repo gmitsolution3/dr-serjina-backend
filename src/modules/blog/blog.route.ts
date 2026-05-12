@@ -14,4 +14,6 @@ router
   .patch(blogController.updateBlog)
   .delete(blogController.deleteBlog);
 
+router.patch("/toggle/:slug", blogController.toggleStatus);
+
 export default router;
